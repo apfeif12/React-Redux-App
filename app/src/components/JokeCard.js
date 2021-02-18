@@ -1,46 +1,46 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import {
-  getJokeSetup,
-  fetchJokeDelivery,
-  fetchJokeReady,
-} from "../actions/index.js";
+import { getJokeSetup, fetchJokeReady } from "../actions/index.js";
 
 const JokeCard = (props) => {
   const { setup, error, loading, ready, delivery } = props;
 
-  const handleClickSetup = () => {
+  const handleClickSetup = (e) => {
+    e.preventDefault();
     props.getJokeSetup();
   };
 
   const handleClickDelivery = (e) => {
-    props.fetchJokeDelivery();
+    props.fetchJokeReady();
   };
 
-  useEffect(() => {
-    props.getJokeSetup();
-  }, []);
+  const handleLoading = () => {
+    if (loading) {
+      return <div>---Loading your joke, hang on a sec---</div>;
+    }
+  };
+
+  const handleReadyCheck = () => {
+    if (ready === true) {
+      console.log("deliveryJC", delivery);
+      return <h1>{delivery}</h1>;
+    }
+  };
 
   if (error) {
-    return <h2>We got an error: {error}</h2>;
-  }
-
-  if (loading) {
-    return <h2>Loading your joke, hang on a sec</h2>;
-  }
-
-  if (ready === true) {
-    console.log("delivery", delivery);
-    return <h2>{delivery}</h2>;
+    console.log("error", error);
+    return <h1> Error: {error.message}</h1>;
   }
 
   return (
     <div>
       <div>
-        <h1>Your Daily Joke</h1>
+        <h1>Joke Machine</h1>
         <button onClick={handleClickSetup}>NEW JOKE</button>
-        <h2>{setup}</h2>
+        <div>{handleLoading()}</div>
+        <div>{setup}</div>
         <button onClick={handleClickDelivery}>PUNCHLINE</button>
+        <div>{handleReadyCheck()}</div>
       </div>
     </div>
   );
@@ -58,6 +58,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getJokeSetup,
-  fetchJokeDelivery,
   fetchJokeReady,
 })(JokeCard);
