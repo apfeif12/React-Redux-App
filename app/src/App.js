@@ -1,14 +1,19 @@
 import "./App.css";
 import JokeCard from "./components/JokeCard";
-
+import styled from "styled-components";
 import React from "react";
 import { connect } from "react-redux";
 
+
+const StyledDiv = styled.div`
+  background-color: black;
+`;
+
 const App = () => {
   return (
-    <div className="App">
+    <StyledDiv className="App">
       <JokeCard />
-    </div>
+    </StyledDiv>
   );
 };
 

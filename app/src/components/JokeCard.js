@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getJokeSetup, fetchJokeReady } from "../actions/index.js";
+import styled from "styled-components";
+
+
+
 
 const JokeCard = (props) => {
   const { setup, error, loading, ready, delivery } = props;
@@ -35,12 +39,12 @@ const JokeCard = (props) => {
   return (
     <div>
       <div>
-        <h1>Joke Machine</h1>
-        <button onClick={handleClickSetup}>NEW JOKE</button>
-        <div>{handleLoading()}</div>
-        <div>{setup}</div>
-        <button onClick={handleClickDelivery}>PUNCHLINE</button>
-        <div>{handleReadyCheck()}</div>
+        <StyledHeader>Joke Machine</StyledHeader>
+        <StyledButton onClick={handleClickSetup}>NEW JOKE</StyledButton>
+        <StyledDiv>{handleLoading()}</StyledDiv>
+        <StyledDiv>{setup}</StyledDiv>
+        <StyledButton onClick={handleClickDelivery}>PUNCHLINE</StyledButton>
+        <StyledDiv>{handleReadyCheck()}</StyledDiv>
       </div>
     </div>
   );
@@ -60,3 +64,17 @@ export default connect(mapStateToProps, {
   getJokeSetup,
   fetchJokeReady,
 })(JokeCard);
+
+const StyledHeader = styled.h1`
+color: white;
+text-decoration: underline;
+text-decoration: bold;
+`
+
+const StyledButton = styled.button`
+color: white;
+background-color: black;
+`
+const StyledDiv = styled.div`
+color: white
+`
