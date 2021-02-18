@@ -1,38 +1,59 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const FETCH_JOKE_LOADING = "FETCH_JOKE_LOADING";
 export const FETCH_JOKE_SETUP = "FETCH_JOKE_SETUP";
 export const FETCH_JOKE_DELIVERY = "FETCH_JOKE_DELIVERY";
+export const FETCH_JOKE_READY = "FETCH_JOKE_READY";
 export const FETCH_JOKE_FAIL = "FETCH_JOKE_FAIL";
 
-
-export const getJokeSetup = () => dispatch => {
+export const getJokeSetup = () => (dispatch) => {
   dispatch(fetchJokeLoading());
 
   axios
-      .get('https://v2.jokeapi.dev/joke/Any?type=twopart')
-      .then(res=>{
-          dispatch(fetchJokeSetup(res.data.setup));
-          dispatch(fetchJokeDelivery(res.data.delivery));
-          console.log("RESULT", res.data)
-      })
-      .catch(err=>{
-          dispatch(fetchJokeFail(err.error));
-      });
-}
+    .get(
+      "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,racist&type=twopart"
+    )
+    .then((res) => {
+      dispatch(fetchJokeSetup(res.data.setup));
+      console.log("setup", res.data);
+      
+      
+    })
+    .catch((err) => {
+      dispatch(fetchJokeFail(err.error));
+    });
+};
+
+// export const getJokeDelivery = () => (dispatch) => {
+//   axios
+//     .get(
+//       "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,racist&type=twopart"
+//     )
+//     .then((res) => {
+
+//       console.log("RESULT", res.data);
+//     })
+//     .catch((err) => {
+//       dispatch(fetchJokeFail(err.error));
+//     });
+// };
 
 export const fetchJokeLoading = () => {
-  return({ type:FETCH_JOKE_LOADING});
-}
+  return { type: FETCH_JOKE_LOADING };
+};
 
 export const fetchJokeSetup = (setup) => {
-  return({type:FETCH_JOKE_SETUP, payload:setup});
-}
+  return { type: FETCH_JOKE_SETUP, payload: setup };
+};
 
 export const fetchJokeDelivery = (delivery) => {
-  return({type:FETCH_JOKE_DELIVERY, payload:delivery});
-}
+  return { type: FETCH_JOKE_DELIVERY, payload: delivery };
+};
+
+export const fetchJokeReady = () => {
+  return { type: FETCH_JOKE_READY };
+};
 
 export const fetchJokeFail = (error) => {
-  return({type:FETCH_JOKE_FAIL, payload:error});
-}
+  return { type: FETCH_JOKE_FAIL, payload: error };
+};

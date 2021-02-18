@@ -2,6 +2,7 @@ import {
   FETCH_JOKE_LOADING,
   FETCH_JOKE_SETUP,
   FETCH_JOKE_DELIVERY,
+  FETCH_JOKE_READY,
   FETCH_JOKE_FAIL,
 } from "../actions/index.js";
 
@@ -10,6 +11,7 @@ const initialState = {
   setup: "",
   delivery: "",
   error: "",
+  ready: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,14 +24,20 @@ const reducer = (state = initialState, action) => {
     case FETCH_JOKE_SETUP:
       return {
         ...state,
-        setup: action.payload,
         loading: false,
+        setup: action.payload,
       };
     case FETCH_JOKE_DELIVERY:
       return {
         ...state,
-        delivery: action.payload,
         loading: false,
+        delivery: action.payload,
+        ready: true,
+      };
+    case FETCH_JOKE_READY:
+      return {
+        ...state,
+        
       };
     case FETCH_JOKE_FAIL:
       return {
